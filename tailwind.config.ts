@@ -5,8 +5,15 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/flowbite/**/*.js",
   ],
   theme: {
+    screens: {
+      'mobile':'300px',
+      'tablet': '640px',
+      'laptop': '1024px',
+      'desktop': '1280px',
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -15,6 +22,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+]
 };
 export default config;
