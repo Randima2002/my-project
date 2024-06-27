@@ -1,0 +1,45 @@
+
+.about-us-info h2 {
+  color: black;
+  font-size: 36px;
+  text-align: right;
+}
+
+.about-us-info p {
+  color: black;
+  font-size: 18px;
+  text-align: right;
+}
+
+@media screen and (max-width: 860px) {
+  .about-us-info p {
+    text-align: center;
+  }
+}
+
+
+
+.history-info h2 {
+  color: #0c4c91;
+  font-size: 36px;
+  text-align: left;
+}
+
+@media screen and (max-width: 860px) {
+  .history-info h2 {
+    text-align: center;
+  }
+}
+
+.history-info p {
+  color: #0c4c91;
+  font-size: 18px;
+  text-align: left;
+}
+
+@media screen and (max-width: 860px) {
+  .history-info p {
+    text-align: center;
+  }
+}
+

@@ -17,6 +17,7 @@ import './slider.css';
 import Image from 'next/image';
 
 
+
 const Silder = () => {
 
   const [selectedfromDates, setSelectedfromDates] = useState([]);

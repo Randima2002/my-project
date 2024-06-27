@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
-import star from './../../../../public/star.png';
-import reviewBack from './../../../../public/review.png';
+import star from './../../../public/star.png';
+import reviewBack from './../../../public/review.png';
 
 export default function review({title , descripton}) {
     return (

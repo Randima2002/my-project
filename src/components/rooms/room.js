@@ -1,5 +1,5 @@
 import React from 'react';
-import reviewBack from './../../../../public/banner1.jpg';
+import reviewBack from './../../../public/banner1.jpg';
 
 
 export default function room({ category }) {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import 'rsuite/dist/rsuite-no-reset.min.css';
-import Header  from './(component)/Header';
+import Header  from './../components/header/Header';
 import { CustomProvider } from 'rsuite';
 
 const inter = Inter({ subsets: ["latin"] });
