@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import 'rsuite/dist/rsuite-no-reset.min.css';
-import Header  from './../components/header/Header';
 import { CustomProvider } from 'rsuite';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,7 +22,6 @@ export default function RootLayout({
 
       </title>
       <body className={inter.className}>
-        <Header/>
         <CustomProvider>{children}</CustomProvider>
         </body>
     </html>

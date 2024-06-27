@@ -6,6 +6,7 @@ import Room from './../components/rooms/room';
 import ImageGallery from './../components/imagegallery/imageGallery';
 import Aboutus from './../components/aboutus/aboutus';
 import Contactus from './../components/contactus/contactus';
+import Header  from './../components/header/Header';
 
 
 export default function Home() {
@@ -14,6 +15,9 @@ export default function Home() {
 
   return (
     <div className=" w-full max-w-[1800px] mx-auto">
+
+      {/* Header */}
+      <Header/>
 
       {/* banner section */}
       <div className=" w-full mobile:h-2/3 laptop:h-screen">
