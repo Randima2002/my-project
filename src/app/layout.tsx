@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import { CustomProvider } from 'rsuite';
+import { NextUIProvider } from "@nextui-org/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <title>
-
-      </title>
       <body className={inter.className}>
-        <CustomProvider>{children}</CustomProvider>
-        </body>
+        <NextUIProvider>
+          <CustomProvider>{children}</CustomProvider>
+        </NextUIProvider>
+      </body>
     </html>
   );
 }

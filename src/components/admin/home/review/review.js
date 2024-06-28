@@ -2,7 +2,7 @@ import React from "react";
 import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Spinner} from "@nextui-org/react";
 import {useAsyncList} from "@react-stately/data";
 
-export default function user() {
+export default function review() {
   const [isLoading, setIsLoading] = React.useState(true);
 
   let list = useAsyncList({

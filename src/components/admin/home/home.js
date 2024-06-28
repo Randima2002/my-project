@@ -8,8 +8,11 @@ import DashboardIcon from '@rsuite/icons/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
 import MagicIcon from '@rsuite/icons/legacy/Magic';
 import { useState } from 'react';
-import Homecal from './dashboardcalender/dashcal';
+import Homecal from './dashboard/dashcal';
 import User from './user/user';
+import Room from './room/room';
+import Review from './review/review';
+import ImageGallery from './imagegallery/imagegallery';
 
 
 const headerStyles = {
@@ -45,13 +48,13 @@ const home = () => {
             case "1":
                 return <div><Homecal/></div>;
             case "2":
-                return <div></div>;
+                return <div><User/></div>;
             case "3-1":
-                return <div>Room Setting</div>;
+                return <div><Room/></div>;
             case "3-2":
-                return <div>Review</div>;
+                return <div><Review/></div>;
             case "3-3":
-                return <div>Image Gallery</div>;
+                return <div><ImageGallery/></div>;
             // case "3-4":
             //     return <div>Loyalty Content</div>;
             // case "3-5":
@@ -67,7 +70,7 @@ const home = () => {
             // case "4-5":
             //     return <div>Versions Content</div>;
             default:
-                return <div>Room Setting</div>;
+                return <div><Room/></div>;
         }
     };
 
