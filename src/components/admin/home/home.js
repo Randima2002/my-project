@@ -81,7 +81,7 @@ const home = () => {
                         style={{ display: 'flex', flexDirection: 'column'}}
                         width={expand ? 260 : 56}
                         collapsible
-                        className=' h-screen bg-slate-100'>
+                        className=' h-auto bg-slate-100'>
                         <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
                             <Sidenav.Body>
                                 <Nav onSelect={setActiveKey}>
@@ -123,11 +123,11 @@ const home = () => {
                         <NavToggle expand={expand} onChange={() => setExpand(!expand)} />
                     </Sidebar>
 
-                    <Container>
+                    <Container className=' h-auto overflow-scroll'>
                         {/* <Header>
                             <h2>Page Title</h2>
                         </Header> */}
-                        <Content>
+                        <Content className=' h-auto'>
                             {renderContent()}
                         </Content>
                     </Container>

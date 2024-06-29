@@ -22,6 +22,7 @@ import {SearchIcon} from "./SearchIcon";
 import {ChevronDownIcon} from "./ChevronDownIcon";
 import {columns, users, statusOptions} from "./data";
 import {capitalize} from "./utils";
+import  Popupmodel  from './popupmodel';
 
 const statusColorMap = {
   active: "success",
@@ -30,6 +31,8 @@ const statusColorMap = {
 };
 
 const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+
+
 
 export default function dashcal() {
   const [filterValue, setFilterValue] = React.useState("");
@@ -166,20 +169,21 @@ export default function dashcal() {
           <Input
             isClearable
             classNames={{
-              base: "w-full sm:max-w-[44%]",
-              inputWrapper: "border-1",
+              base: "w-full ml-3 mobile:max-w-[40%] ",
+              inputWrapper: "border-1 ml-3",
             }}
             placeholder="Search by name..."
             size="sm"
-            startContent={<SearchIcon className="text-default-300" />}
+            startContent={<SearchIcon className="text-default-300 mr-3" />}
             value={filterValue}
             variant="bordered"
             onClear={() => setFilterValue("")}
             onValueChange={onSearchChange}
+            className=" border-none"
           />
           <div className="flex gap-3">
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger className="hidden mobile:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   size="sm"
@@ -204,7 +208,7 @@ export default function dashcal() {
               </DropdownMenu>
             </Dropdown>
             <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
+              <DropdownTrigger className="hidden mobile:flex">
                 <Button
                   endContent={<ChevronDownIcon className="text-small" />}
                   size="sm"
@@ -228,13 +232,14 @@ export default function dashcal() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button
+            <Popupmodel action={true} />
+            {/* <Button
               className="bg-foreground text-background"
               endContent={<PlusIcon />}
               size="sm"
             >
               Add New
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -265,7 +270,7 @@ export default function dashcal() {
 
   const bottomContent = React.useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center">
+      <div className="py-2 px-2 flex flex-row-reverse justify-between items-center">
         <Pagination
           showControls
           classNames={{
@@ -289,7 +294,7 @@ export default function dashcal() {
 
   const classNames = React.useMemo(
     () => ({
-      wrapper: ["max-h-[482px]", "max-w-3xl"],
+      wrapper: ["max-h-[682px]", "max-w-3xl"],
       th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
       td: [
         // changing the rows border radius
@@ -308,6 +313,7 @@ export default function dashcal() {
   );
 
   return (
+    <>
     <Table
       isCompact
       removeWrapper
@@ -327,6 +333,8 @@ export default function dashcal() {
       topContentPlacement="outside"
       onSelectionChange={setSelectedKeys}
       onSortChange={setSortDescriptor}
+      className=" p-10 h-[100vh]"
+      style={{height:'50vh'}}
     >
       <TableHeader columns={headerColumns}>
         {(column) => (
@@ -347,5 +355,6 @@ export default function dashcal() {
         )}
       </TableBody>
     </Table>
+    </>
   );
 }
