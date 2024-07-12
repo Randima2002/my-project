@@ -49,11 +49,12 @@ export default function Dashcal() {
   });
   const [page, setPage] = useState(1);
   const [refresh, setRefresh] = useState(false);
-
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/booking',{cache:"no-store"});
+        const response = await fetch('/api/booking', { cache: "no-store" });
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -66,7 +67,7 @@ export default function Dashcal() {
 
   const handleUpdateSuccess = () => {
     setRefresh(!refresh);
-};
+  };
 
   const pages = Math.ceil(users.length / rowsPerPage);
 
@@ -90,9 +91,15 @@ export default function Dashcal() {
         Array.from(statusFilter).includes(user.status),
       );
     }
+    if (startDate && endDate) {
+      filteredUsers = filteredUsers.filter((user) => {
+        const checkingDate = new Date(user.checking_date);
+        return checkingDate >= new Date(startDate) && checkingDate <= new Date(endDate);
+      });
+    }
 
     return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+  }, [users, filterValue, statusFilter, startDate, endDate]);
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -212,53 +219,46 @@ export default function Dashcal() {
     }
   }, []);
 
-  
+
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
-          <Input
-            isClearable
-            classNames={{
-              base: 'w-full ml-3 mobile:max-w-[40%] ',
-              inputWrapper: 'border-1 ml-3',
-            }}
-            placeholder="Search by name..."
-            size="sm"
-            startContent={<SearchIcon className="text-default-300 mr-3" />}
-            value={filterValue}
-            variant="bordered"
-            onClear={() => setFilterValue('')}
-            onValueChange={onSearchChange}
-            className=" border-none"
-          />
-          <div className="flex gap-3">
-            {/* <Dropdown>
-              <DropdownTrigger className="hidden mobile:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown> */}
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between gap-[2.5rem] items-end">
+          <div className=' w-[30%]'>
+            <Input
+              isClearable
+              classNames={{
+                base: 'w-full ml-3 mobile:w-[40%] laptop:w-[100%] ',
+                inputWrapper: 'border-1 ml-3',
+              }}
+              placeholder="Search by name..."
+              size="sm"
+              startContent={<SearchIcon className="text-default-300 mr-3" />}
+              value={filterValue}
+              variant="bordered"
+              onClear={() => setFilterValue('')}
+              onValueChange={onSearchChange}
+              className=" border-none"
+            />
+          </div>
+          <div className="flex gap-2 w-[70%] justify-end">
+            <Input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              placeholder="Start Date"
+              size="sm"
+              className="border-1 ml-3"
+            />
+            <Input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              placeholder="End Date"
+              size="sm"
+              className="border-1 ml-3"
+            />
             <Dropdown>
               <DropdownTrigger className="hidden mobile:flex">
                 <Button
@@ -283,22 +283,12 @@ export default function Dashcal() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Popupmodel action={true} onUpdateSuccess={handleUpdateSuccess}/>
-            {/* <Button
-              className="bg-foreground text-background"
-              endContent={<PlusIcon />}
-              size="sm"
-            >
-              Add New
-            </Button> */}
-            {/* <Button size="md" startContent={<PlusIcon fill="currentColor" />}>
-              New Booking
-            </Button> */}
+            <Popupmodel action={true} onUpdateSuccess={handleUpdateSuccess} />
           </div>
         </div>
       </div>
     );
-  }, [filterValue, statusFilter, visibleColumns, onSearchChange]);
+  }, [filterValue, statusFilter, visibleColumns, startDate, endDate, onSearchChange]);
 
   const bottomContent = React.useMemo(() => {
     return (
@@ -330,7 +320,7 @@ export default function Dashcal() {
       bottomContent={bottomContent}
       classNames={{
         base: 'border-1 ml-3',
-        table: 'min-h-[440px]',
+        table: 'min-h-auto max-h-[80vh] overflow-scroll',
       }}
       sortDescriptor={sortDescriptor}
       stickyHeader

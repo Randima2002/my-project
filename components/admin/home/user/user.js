@@ -78,7 +78,7 @@ export default function User() {
         sortDescriptor={list.sortDescriptor}
         onSortChange={list.sort}
         classNames={{
-          table: "min-h-[400px]",
+          table: "min-h-auto ",
         }}
       >
         <TableHeader>

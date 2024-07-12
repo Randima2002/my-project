@@ -3,8 +3,10 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDi
 import { Input } from "@nextui-org/react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import { DateRangePicker } from "@nextui-org/react";
+import { MdLibraryAdd } from "react-icons/md";
 
-export default function popupmodel({ action ,onUpdateSuccess}) {
+
+export default function popupmodel({ action, onUpdateSuccess }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [name, setName] = useState(' ')
     const [email, setemail] = useState(' ')
@@ -36,7 +38,7 @@ export default function popupmodel({ action ,onUpdateSuccess}) {
     }
 
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
         setError('');
@@ -46,11 +48,11 @@ export default function popupmodel({ action ,onUpdateSuccess}) {
             email,
             nic,
             contact,
-            checking_date : formatDate(stayDuration.start).toString(),
-            checkout_date : formatDate(stayDuration.end).toString() ,
-            adult:adult,
-            child :children,
-            roomType : roomType.room
+            checking_date: formatDate(stayDuration.start).toString(),
+            checkout_date: formatDate(stayDuration.end).toString(),
+            adult: adult,
+            child: children,
+            roomType: roomType.room
         }
         console.log("data const complete..!")
         try {
@@ -85,11 +87,11 @@ export default function popupmodel({ action ,onUpdateSuccess}) {
             setLoading(false);
         }
     };
-    
+
 
     return (
         <>
-            <Button onPress={onOpen} className="bg-black text-white font-bold -mt-1">Add New</Button>
+            <Button onPress={onOpen} className="bg-black text-white font-bold px-3 py-2 -mt-2">New Booking</Button>
             <Modal
                 backdrop="opaque"
                 isOpen={isOpen}
@@ -98,11 +100,11 @@ export default function popupmodel({ action ,onUpdateSuccess}) {
                 size="3xl"
                 placement="top"
                 classNames={{
-                    body: "py-6",
-                    backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-                    base: "border-[#292f46] bg-[#19172c] dark:bg-[#19172c] text-[#a8b0d3]",
-                    header: "border-b-[1px] border-[#292f46]",
-                    footer: "border-t-[1px] border-[#292f46]",
+                    body: "py-4",
+                    backdrop: "bg-[#fafafc]/50 backdrop-opacity-40",
+                    base: "border-[#fafafc] bg-[#f0af3e] dark:bg-[#FFFFFF] text-[#19172c]",
+                    header: "border-b-[1px] border-[#000]",
+                    footer: "border-t-[1px] border-[#000]",
                     closeButton: "hover:bg-white/5 active:bg-white/10",
                 }}
                 style={{ display: action ? 'flex' : 'none' }}
@@ -110,91 +112,116 @@ export default function popupmodel({ action ,onUpdateSuccess}) {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Add New Booking</ModalHeader>
-                            <ModalBody>
-                                <form onSubmit={handleSubmit} className=" space-y-4">
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0 ring-offset-0"
-                                            name="name"
-                                            placeholder="Enter name"
-                                            onChange={(e) => setName(e.target.value)}
-                                        />
+
+                            <div className=" flex flex-row gap-1 pl-8">
+                                <div className="text-3xl my-auto">
+                                    <MdLibraryAdd />
+                                </div>
+                                <ModalHeader className="flex flex-col gap-1 px-4 text-black">Add New Booking
+                                </ModalHeader>
+
+                            </div>
+
+                            <ModalBody className="text-white">
+                                <form onSubmit={handleSubmit} className="text-white p-6 pb-0 ">
+                                    <div className=" grid grid-cols-2 gap-4">
+                                        <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0 mb-3 laptop:mb-0 w-full bg-white text-black rounded-xl gap-"
+                                                name="name"
+                                                placeholder="Enter name"
+                                                onChange={(e) => setName(e.target.value)}
+                                            />
+                                        </div>
+
+                                        <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
+                                            <Input
+                                                type="email"
+                                                className="border-0 focus:border-0 mb-3 laptop:mb-0 w-full bg-white text-black rounded-xl gap-4"
+                                                name="email"
+                                                placeholder="Enter email"
+                                                onChange={(e) => setemail(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
+                                                name="nic"
+                                                placeholder="Enter NIC"
+                                                onChange={(e) => setnic(e.target.value)}
+                                            />
+
+                                        </div>
+                                        <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
+                                                name="contact"
+                                                placeholder="Enter contact number"
+                                                onChange={(e) => setcontact(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
+                                                name="adult"
+                                                placeholder="Enter number of adults"
+                                                onChange={(e) => setadult(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
+                                                name="children"
+                                                placeholder="Enter number of children"
+                                                onChange={(e) => setachildren(e.target.value)}
+                                            />
+                                        </div>
+                                        <div>
+                                            <DateRangePicker
+                                                label="Set Stay duration"
+                                                className="max-w-full mb-4 laptop:mb-0 w-full"
+                                                name="stayduration"
+                                                onChange={(e) => setstayDuration(e)}
+                                            />
+                                        </div>
+                                        <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
+                                            <select
+                                                onChange={handleRoomTypeChange}
+                                                className="border-0 focus:border-0 w-full bg-white text-black mb-4 laptop:mb-0 rounded-xl px-4 py-2"
+                                            >
+                                                <option value="">Select Room Type</option>
+                                                <option value="Single Room AC">Single Room AC</option>
+                                                <option value="Single Room Non AC">Single Room Non AC</option>
+                                                <option value="Double Room AC">Double Room AC</option>
+                                                <option value="Double Room Non AC">Double Room Non AC</option>
+                                                <option value="Triple Room AC">Triple Room AC</option>
+                                                <option value="Triple Room Non AC">Triple Room Non AC</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="email"
-                                            className="border-0 focus:border-0"
-                                            name="email"
-                                            placeholder="Enter email"
-                                            onChange={(e) => setemail(e.target.value)}
-                                        />
+                                    <div className="flex flex-row w-full justify-end gap-4 mt-10">
+                                        <Button type="submit" className=" btn-primary bg-white text-black " disabled={loading}>
+                                            {loading ? 'Submitting...' : 'Submit'}
+                                        </Button>
+                                        <Button className="btn-primary bg-white text-black " onPress={onClose}>
+                                            Close
+                                        </Button>
+
                                     </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0"
-                                            name="nic"
-                                            placeholder="Enter NIC"
-                                            onChange={(e) => setnic(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0"
-                                            name="contact"
-                                            placeholder="Enter contact number"
-                                            onChange={(e) => setcontact(e.target.value)}
-                                        />
-                                    </div>
-                                    <div>
-                                        <DateRangePicker
-                                            label="Stay duration"
-                                            className="max-w-xs"
-                                            name="stayduration"
-                                            onChange={(e) => setstayDuration(e)}
-                                        />
-                                    </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0"
-                                            name="adult"
-                                            placeholder="Enter number of adults"
-                                            onChange={(e) => setadult(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0"
-                                            name="children"
-                                            placeholder="Enter number of children"
-                                            onChange={(e) => setachildren(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <select onChange={handleRoomTypeChange} className="border-0 focus:border-0 bg-white text-black">
-                                            <option value="">Select Room Type</option>
-                                            <option value="Single Room">Single Room</option>
-                                            <option value="Double Room">Double Room</option>
-                                            <option value="Triple Room">Triple Room</option>
-                                        </select>
-                                    </div>
-                                    <Button type="submit" className="mt-4" disabled={loading}>
-                                        {loading ? 'Submitting...' : 'Submit'}
-                                    </Button>
                                 </form>
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
                                 {success && <p style={{ color: 'green' }}>{success}</p>}
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="foreground" variant="light" onPress={onClose}>
+                                {/* <Button color="foreground" variant="light" onPress={onClose}>
                                     Close
-                                </Button>
-                               
+                                </Button> */}
+
                             </ModalFooter>
                         </>
                     )}

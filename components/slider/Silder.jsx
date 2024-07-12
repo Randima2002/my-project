@@ -78,7 +78,7 @@ const Silder = () => {
         <SwiperSlide>
           <Image src={banner1} alt="banner" className=' w-full mobile:h-2/3 laptop:h-screen' />
           <div className=' w-[80%] mx-auto bg-white rounded top-[70%] left-[10%] z-10 absolute'>
-            <div className=' w-full flex flex-row p-4 gap-4' >
+            {/* <div className=' w-full flex flex-row p-4 gap-4' >
 
               <div className=' flex flex-col'>
                 <label htmlFor="" className=' my-auto leading-5'>Check in</label>
@@ -117,13 +117,14 @@ const Silder = () => {
                 <Button size="md" className=' my-auto' onClick={searchAvailability}>Check Availability</Button>
               </div>
 
-            </div>
+            </div> */}
           </div>
         </SwiperSlide>
+
         <SwiperSlide>
           <Image src={banner2} alt="banner" className=' w-full mobile:h-2/3 laptop:h-screen' />
            <div className=' w-[80%] mx-auto bg-white rounded top-[70%] left-[10%] z-10 absolute'>
-            <div className=' w-full flex flex-row p-4 gap-4' >
+            {/* <div className=' w-full flex flex-row p-4 gap-4' >
 
               <div className=' flex flex-col'>
                 <label htmlFor="" className=' my-auto leading-5'>Check in</label>
@@ -162,13 +163,14 @@ const Silder = () => {
                 <Button size="md" className=' my-auto' onClick={searchAvailability}>Check Availability</Button>
               </div>
 
-            </div>
+            </div> */}
           </div>
         </SwiperSlide>
+
         <SwiperSlide>
           <Image src={banner3} alt="banner" className=' w-full mobile:h-2/3 laptop:h-screen' />
            <div className=' w-[80%] mx-auto bg-white rounded top-[70%] left-[10%] z-10 absolute'>
-            <div className=' w-full flex flex-row p-4 gap-4' >
+            {/* <div className=' w-full flex flex-row p-4 gap-4' >
 
               <div className=' flex flex-col'>
                 <label htmlFor="" className=' my-auto leading-5'>Check in</label>
@@ -207,13 +209,14 @@ const Silder = () => {
                 <Button size="md" className=' my-auto' onClick={searchAvailability}>Check Availability</Button>
               </div>
 
-            </div>
+            </div> */}
           </div>
         </SwiperSlide>
+
         <SwiperSlide>
           <Image src={banner4} alt="banner" className=' w-full mobile:h-2/3 laptop:h-screen' />
            <div className=' w-[80%] mx-auto bg-white rounded top-[70%] left-[10%] z-10 absolute'>
-            <div className=' w-full flex flex-row p-4 gap-4' >
+            {/* <div className=' w-full flex flex-row p-4 gap-4' >
 
               <div className=' flex flex-col'>
                 <label htmlFor="" className=' my-auto leading-5'>Check in</label>
@@ -252,7 +255,7 @@ const Silder = () => {
                 <Button size="md" className=' my-auto' onClick={searchAvailability}>Check Availability</Button>
               </div>
 
-            </div>
+            </div> */}
           </div>
         </SwiperSlide>
       </Swiper>

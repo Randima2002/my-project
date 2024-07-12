@@ -27,7 +27,7 @@ export async function PUT(request, { params }) {
         //   console.log(body)
         const { name, email, nic, contact, isadmin,username, password  } = data;
 
-        const UpdateUser = await prisma.user.update({
+        const UpdateUser = await prisma.user.update({ 
             where: { id },
             data: {
                 name,

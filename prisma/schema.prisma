@@ -34,11 +34,11 @@ model booking {
 model user {
   id              Int      @id @default(autoincrement())
   name            String?
-  email           String?
+  email           String? @unique
   nic             String?
   contact         String?
   isadmin         String?
-  username        String?
+  username        String? 
   password        String?
       
   createdAt DateTime @default(now())

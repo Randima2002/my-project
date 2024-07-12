@@ -42,7 +42,7 @@ const NavToggle = ({ expand, onChange }) => {
 const home = () => {
     const [expand, setExpand] = useState(true);
     const [activeKey, setActiveKey] = useState("1");
-
+    // console.log(session);
     const renderContent = () => {
         switch (activeKey) {
             case "1":
@@ -81,7 +81,7 @@ const home = () => {
                         style={{ display: 'flex', flexDirection: 'column'}}
                         width={expand ? 260 : 56}
                         collapsible
-                        className=' h-auto bg-slate-100'>
+                        className=' h-[80vh] bg-slate-100'>
                         <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
                             <Sidenav.Body>
                                 <Nav onSelect={setActiveKey}>
