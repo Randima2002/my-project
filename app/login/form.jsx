@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { NextResponse } from 'next/server';
 
 const login = () => {
-    const router = useRouter();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false)

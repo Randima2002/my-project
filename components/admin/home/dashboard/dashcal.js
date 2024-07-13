@@ -53,6 +53,7 @@ export default function Dashcal() {
   const [endDate, setEndDate] = useState('');
   useEffect(() => {
     const fetchData = async () => {
+      
       try {
         const response = await fetch('/api/booking', { cache: "no-store" });
         const data = await response.json();

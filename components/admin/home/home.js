@@ -40,6 +40,13 @@ const NavToggle = ({ expand, onChange }) => {
 };
 
 const home = () => {
+    //   const session = await getServerSession();
+
+  // if (session) {
+  //   redirect('/admin');
+  // }else{
+  //   redirect('/login');
+  // }
     const [expand, setExpand] = useState(true);
     const [activeKey, setActiveKey] = useState("1");
     // console.log(session);

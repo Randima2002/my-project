@@ -22,6 +22,8 @@ const handler = NextAuth({
                     where: { email:credentials.email },
                 });
                 
+                // console.log(user);
+
                 if (user && credentials.password) {
                     const isValid = credentials.password === user.password;
                     
