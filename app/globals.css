@@ -9,3 +9,18 @@ input{
 input:focus{
     --tw-ring-shadow:none !important;
 }
+
+
+.group{
+    border-radius: 12px !important;
+}
+
+tr:hover{
+    background-color: gainsboro !important;
+    cursor: pointer !important;
+}
+
+#crd:hover,
+#user-name:hover{
+    cursor: pointer;
+}

@@ -14,6 +14,7 @@ import Room from './room/room';
 import Review from './review/review';
 import ImageGallery from './imagegallery/imagegallery';
 import { useSession } from 'next-auth/react';
+import HeaderAdmin from './../header/header';
 
 
 const headerStyles = {
@@ -40,60 +41,79 @@ const NavToggle = ({ expand, onChange }) => {
     );
 };
 
-const home = ({session}) => {
+const home = ({ session }) => {
     // const session = await getServerSession();
-    console.log("user session is : ", session.user); 
+    console.log("user session is Home: ", session.user);
+    const [Logeduser, setLogeduser] = useState(null);
+    const [Logedusername, setLogedusername] = useState(null);
     // Log the user role
+
+    const fetchDataLogedUser = async () => {
+        const data = {email:session.user.email};
+        console.log("data is home: ", JSON.stringify(data))
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                const Data = await response.json();
+                console.error('API response error:', Data);
+                throw new Error('Error tetching user');
+            }
+
+            const responseData = await response.json();
+            setLogeduser(responseData.isadmin);
+            setLogedusername(responseData.name)
+            console.log("Home Data is: ", responseData.isadmin);
+        } catch (error) {
+            console.log(error);
+        } finally {
+        }
+    };
+
 
     useEffect(() => {
         if (session) {
-            console.log("User role:", session?.user.email); // Log the user role
+            console.log("User role:", session.user.email); // Log the user role
             // if (session.user.role === 'admin') {
             //     router.push('/admin');
             // }
+            fetchDataLogedUser();
         }
-    }, []);
-    // if (session) {
-    //   redirect('/admin');
-    // }else{
-    //   redirect('/login');
-    // }
+
+    }, [session]);
     const [expand, setExpand] = useState(true);
     const [activeKey, setActiveKey] = useState("1");
+    console.log("Logeduser :" + Logeduser);
     // console.log(session);
     const renderContent = () => {
-        switch (activeKey) {
-            case "1":
-                return <div><Homecal /></div>;
-            case "2":
-                return <div><User /></div>;
-            // case "3-1":
-            //     return <div><Room/></div>;
-            // case "3-2":
-            //     return <div><Review/></div>;
-            // case "3-3":
-            //     return <div><ImageGallery/></div>;
-            // case "3-4":
-            //     return <div>Loyalty Content</div>;
-            // case "3-5":
-            //     return <div>Visit Depth Content</div>;
-            // case "4-1":
-            //     return <div>Applications Content</div>;
-            // case "4-2":
-            //     return <div>Websites Content</div>;
-            // case "4-3":
-            //     return <div>Channels Content</div>;
-            // case "4-4":
-            //     return <div>Tags Content</div>;
-            // case "4-5":
-            //     return <div>Versions Content</div>;
-            default:
-                return <div><Homecal /></div>;
+        if (Logeduser === "admin") {
+            switch (activeKey) {
+                case "1":
+                    return <div><Homecal /></div>;
+                case "2":
+                    return <div><User /></div>;
+                default:
+                    return <div><Homecal /></div>;
+            }
+        } else {
+            switch (activeKey) {
+                case "1":
+                    return <div><Homecal /></div>;
+                default:
+                    return <div><Homecal /></div>;
+            }
         }
     };
 
     return (
         <div className="show-fake-browser sidebar-page ">
+            <HeaderAdmin  Logedusername={Logedusername}/>
             <Container className=' flex flex-row'>
                 <Sidebar
                     style={{ display: 'flex', flexDirection: 'column' }}
@@ -103,12 +123,14 @@ const home = ({session}) => {
                     <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
                         <Sidenav.Body>
                             <Nav onSelect={setActiveKey}>
-                                <Nav.Item eventKey="1" active={activeKey === "1"} icon={<DashboardIcon />}>
+                                <Nav.Item eventKey="1" active={activeKey === "1"} icon={<DashboardIcon Logedusername={Logedusername}/>}>
                                     Dashboard
                                 </Nav.Item>
-                                <Nav.Item eventKey="2" active={activeKey === "2"} icon={<GroupIcon />}>
-                                    User Settings
-                                </Nav.Item>
+                                {Logeduser === "admin" && (
+                                    <Nav.Item eventKey="2" active={activeKey === "2"} icon={<GroupIcon />}>
+                                        User Settings
+                                    </Nav.Item>
+                                )}
                                 {/* <Nav.Menu
                                         eventKey="3"
                                         trigger="hover"

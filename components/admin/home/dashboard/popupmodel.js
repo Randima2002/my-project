@@ -91,7 +91,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
 
     return (
         <>
-            <Button onPress={onOpen} className="bg-black text-white font-bold px-3 py-2 -mt-2">New Booking</Button>
+            <Button onPress={onOpen} className="bg-black text-white w-fit font-bold px-5 py-2 my-auto">Add New</Button>
             <Modal
                 backdrop="opaque"
                 isOpen={isOpen}
@@ -100,7 +100,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                 size="3xl"
                 placement="top"
                 classNames={{
-                    body: "py-4",
+                    body: "py-4 p-5",
                     backdrop: "bg-[#fafafc]/50 backdrop-opacity-40",
                     base: "border-[#fafafc] bg-[#f0af3e] dark:bg-[#FFFFFF] text-[#19172c]",
                     header: "border-b-[1px] border-[#000]",
@@ -131,6 +131,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                                                 className="border-0 focus:border-0 mb-3 laptop:mb-0 w-full bg-white text-black rounded-xl gap-"
                                                 name="name"
                                                 placeholder="Enter name"
+                                                required 
                                                 onChange={(e) => setName(e.target.value)}
                                             />
                                         </div>
@@ -140,6 +141,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                                                 type="email"
                                                 className="border-0 focus:border-0 mb-3 laptop:mb-0 w-full bg-white text-black rounded-xl gap-4"
                                                 name="email"
+                                                required 
                                                 placeholder="Enter email"
                                                 onChange={(e) => setemail(e.target.value)}
                                             />
@@ -149,6 +151,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                                                 type="text"
                                                 className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
                                                 name="nic"
+                                                required 
                                                 placeholder="Enter NIC"
                                                 onChange={(e) => setnic(e.target.value)}
                                             />
@@ -159,6 +162,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                                                 type="text"
                                                 className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
                                                 name="contact"
+                                                required 
                                                 placeholder="Enter contact number"
                                                 onChange={(e) => setcontact(e.target.value)}
                                             />
@@ -168,6 +172,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                                                 type="text"
                                                 className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
                                                 name="adult"
+                                                required 
                                                 placeholder="Enter number of adults"
                                                 onChange={(e) => setadult(e.target.value)}
                                             />
@@ -177,6 +182,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                                                 type="text"
                                                 className="border-0 focus:border-0 mb-4 laptop:mb-0 w-full bg-white text-black rounded-xl"
                                                 name="children"
+                                                required 
                                                 placeholder="Enter number of children"
                                                 onChange={(e) => setachildren(e.target.value)}
                                             />
@@ -186,6 +192,7 @@ export default function popupmodel({ action, onUpdateSuccess }) {
                                                 label="Set Stay duration"
                                                 className="max-w-full mb-4 laptop:mb-0 w-full"
                                                 name="stayduration"
+                                                required 
                                                 onChange={(e) => setstayDuration(e)}
                                             />
                                         </div>

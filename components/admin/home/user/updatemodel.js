@@ -106,7 +106,7 @@ export default function popupeditmodel({ data, action,onUpdateSuccess }) {
 
     return (
         <>
-            <Button onPress={onOpen} className="bg-black text-white font-bold -mt-1">Update Booking</Button>
+            <Button onPress={onOpen} className="bg-black text-white font-bold -mt-1">Update User</Button>
             <Modal
                 backdrop="opaque"
                 isOpen={isOpen}
@@ -127,7 +127,7 @@ export default function popupeditmodel({ data, action,onUpdateSuccess }) {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Update Booking</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Update User</ModalHeader>
                             <ModalBody>
                                 <form className=" space-y-4" onSubmit={handleUpdate}>
                                     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">

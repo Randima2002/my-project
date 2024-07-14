@@ -18,6 +18,7 @@ const handler = NextAuth({
                 password: {},
             },
             async authorize(credentials, req) {
+
                 const user = await prisma.user.findFirst({
                     where: { email: credentials.email },
                 });
@@ -39,7 +40,8 @@ const handler = NextAuth({
                     const sessionDetals = {
                         id: user.id,
                         email: user.email,
-                        isadmin: user.isadmin
+                        isadmin: user.isadmin,
+                        message: 'Login successful!'
                     }
                     return sessionDetals;
 
@@ -54,11 +56,12 @@ const handler = NextAuth({
                 token.id = user.id;
                 token.email = user.email;
                 token.isadmin = user.isadmin;
+                token.message = user.message;
             }
             return token;
         },
         async session({ session, token }) {
-            console.log("token : " + token)
+            // console.log("token : " + token)
             if (token) {
                 session.user = { ...token }; 
             }

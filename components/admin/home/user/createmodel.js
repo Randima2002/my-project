@@ -107,6 +107,7 @@ export default function popupmodel({ action, pagefresh }) {
                                             className="border-0 focus:border-0 ring-offset-0"
                                             name="name"
                                             placeholder="Enter name"
+                                            required 
                                             onChange={(e) => setName(e.target.value)}
                                         />
                                     </div>
@@ -115,6 +116,7 @@ export default function popupmodel({ action, pagefresh }) {
                                             type="email"
                                             className="border-0 focus:border-0"
                                             name="email"
+                                            required 
                                             placeholder="Enter email"
                                             onChange={(e) => setemail(e.target.value)}
                                         />
@@ -124,6 +126,7 @@ export default function popupmodel({ action, pagefresh }) {
                                             type="text"
                                             className="border-0 focus:border-0"
                                             name="nic"
+                                            required 
                                             placeholder="Enter NIC"
                                             onChange={(e) => setnic(e.target.value)}
                                         />
@@ -133,6 +136,7 @@ export default function popupmodel({ action, pagefresh }) {
                                             type="text"
                                             className="border-0 focus:border-0"
                                             name="contact"
+                                            required 
                                             placeholder="Enter contact number"
                                             onChange={(e) => setcontact(e.target.value)}
                                         />
@@ -143,6 +147,7 @@ export default function popupmodel({ action, pagefresh }) {
                                             type="text"
                                             className="border-0 focus:border-0"
                                             name="username"
+                                            required 
                                             // value={name}
                                             placeholder="username "
                                             onChange={(e) => setusername(e.target.value)}
@@ -156,6 +161,7 @@ export default function popupmodel({ action, pagefresh }) {
                                             type={showPassword ? "text" : "password"}
                                             className="border-0 focus:border-0 w-[95%]"
                                             name="password"
+                                            required 
                                             id="password"
                                             placeholder=" "
                                             onChange={(e) => setpassword(e.target.value)}

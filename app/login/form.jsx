@@ -13,6 +13,7 @@ const login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(null);
+  // const [Success, setSuccess] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +25,11 @@ const login = () => {
     });
     if (res?.error) {
       setError(res.error);
+      setSuccess(null)
     } else {
+      setError(null);
+      alert('Login successful! Redirecting...');
+
       router.push('/admin');
       router.refresh();
       console.log(res)
@@ -87,6 +92,11 @@ const login = () => {
                 {error}
               </div>
             )}
+            {/* {Success && (
+              <div className='text-green-600 font-bold text-sm px-2'>
+                {error}
+              </div>
+            )} */}
             <div className=' w-full justify-start flex mt-4 px-2'>
               <button type="submit" className=' bg-black text-white rounded-md px-4 py-2 font-semibold mt-4'>Login</button>
             </div>

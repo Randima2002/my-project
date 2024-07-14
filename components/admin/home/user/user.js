@@ -69,10 +69,11 @@ export default function User() {
   }, [refresh]);
 
   return (
-    <>
+    <div className=' mt-[2vh] w-[78vw]'>
       <div className="w-full flex justify-end h-auto">
         <CreateUserModel action={true} pagefresh={handleUpdateSuccess} />
       </div>
+      <div className=" mt-[2vh] ml-[2vh]">
       <Table
         aria-label="Example table with client-side sorting"
         sortDescriptor={list.sortDescriptor}
@@ -125,6 +126,7 @@ export default function User() {
           )}
         </TableBody>
       </Table>
-    </>
+      </div>
+    </div>
   );
 }

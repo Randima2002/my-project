@@ -10,7 +10,9 @@ import { getSession } from 'next-auth/react';
 const page = async () => {
   const session = await getServerSession();
   // const sess= await getSession(session);
-  console.log("session is page : " +  JSON.stringify(session.user, null, 2))
+  // const mail = JSON.stringify(session.user.email, null, 2);
+  // console.log(mail)
+
   if (session) {
     try {
       redirect('/admin');
