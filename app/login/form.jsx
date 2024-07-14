@@ -12,6 +12,7 @@ const login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,12 +22,13 @@ const login = () => {
         password:password,
         redirect:false
     });
-    console.log(res);
-    if(!res?.error){
-        router.push('/admin');
-        router.refresh();  
+    if (res?.error) {
+      setError(res.error);
+    } else {
+      router.push('/admin');
+      router.refresh();
+      console.log(res)
     }
-    console.log(res.error)
   };
 
   return (
@@ -80,6 +82,11 @@ const login = () => {
 
               </div>
             </div>
+            {error && (
+              <div className='text-red-500 font-bold text-sm px-2'>
+                {error}
+              </div>
+            )}
             <div className=' w-full justify-start flex mt-4 px-2'>
               <button type="submit" className=' bg-black text-white rounded-md px-4 py-2 font-semibold mt-4'>Login</button>
             </div>

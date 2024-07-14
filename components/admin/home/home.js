@@ -7,12 +7,13 @@ import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 import DashboardIcon from '@rsuite/icons/Dashboard';
 import GroupIcon from '@rsuite/icons/legacy/Group';
 import MagicIcon from '@rsuite/icons/legacy/Magic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Homecal from './dashboard/dashcal';
 import User from './user/user';
 import Room from './room/room';
 import Review from './review/review';
 import ImageGallery from './imagegallery/imagegallery';
+import { useSession } from 'next-auth/react';
 
 
 const headerStyles = {
@@ -28,7 +29,7 @@ const headerStyles = {
 const NavToggle = ({ expand, onChange }) => {
     return (
         <Navbar appearance="subtle" className="nav-toggle">
-            
+
 
             <Nav pullRight>
                 <Nav.Item onClick={onChange} style={{ width: 56, textAlign: 'center' }}>
@@ -39,23 +40,33 @@ const NavToggle = ({ expand, onChange }) => {
     );
 };
 
-const home = () => {
-    //   const session = await getServerSession();
+const home = ({session}) => {
+    // const session = await getServerSession();
+    console.log("user session is : ", session.user); 
+    // Log the user role
 
-  // if (session) {
-  //   redirect('/admin');
-  // }else{
-  //   redirect('/login');
-  // }
+    useEffect(() => {
+        if (session) {
+            console.log("User role:", session?.user.email); // Log the user role
+            // if (session.user.role === 'admin') {
+            //     router.push('/admin');
+            // }
+        }
+    }, []);
+    // if (session) {
+    //   redirect('/admin');
+    // }else{
+    //   redirect('/login');
+    // }
     const [expand, setExpand] = useState(true);
     const [activeKey, setActiveKey] = useState("1");
     // console.log(session);
     const renderContent = () => {
         switch (activeKey) {
             case "1":
-                return <div><Homecal/></div>;
+                return <div><Homecal /></div>;
             case "2":
-                return <div><User/></div>;
+                return <div><User /></div>;
             // case "3-1":
             //     return <div><Room/></div>;
             // case "3-2":
@@ -77,41 +88,41 @@ const home = () => {
             // case "4-5":
             //     return <div>Versions Content</div>;
             default:
-                return <div><Homecal/></div>;
+                return <div><Homecal /></div>;
         }
     };
 
     return (
-            <div className="show-fake-browser sidebar-page ">
-                <Container className=' flex flex-row'>
-                    <Sidebar
-                        style={{ display: 'flex', flexDirection: 'column'}}
-                        width={expand ? 260 : 56}
-                        collapsible
-                        className=' h-[80vh] bg-slate-100'>
-                        <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
-                            <Sidenav.Body>
-                                <Nav onSelect={setActiveKey}>
-                                    <Nav.Item eventKey="1" active={activeKey === "1"} icon={<DashboardIcon />}>
-                                        Dashboard
-                                    </Nav.Item>
-                                    <Nav.Item eventKey="2" active={activeKey === "2"} icon={<GroupIcon />}>
-                                        User Settings
-                                    </Nav.Item>
-                                    {/* <Nav.Menu
+        <div className="show-fake-browser sidebar-page ">
+            <Container className=' flex flex-row'>
+                <Sidebar
+                    style={{ display: 'flex', flexDirection: 'column' }}
+                    width={expand ? 260 : 56}
+                    collapsible
+                    className=' h-[80vh] bg-slate-100'>
+                    <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
+                        <Sidenav.Body>
+                            <Nav onSelect={setActiveKey}>
+                                <Nav.Item eventKey="1" active={activeKey === "1"} icon={<DashboardIcon />}>
+                                    Dashboard
+                                </Nav.Item>
+                                <Nav.Item eventKey="2" active={activeKey === "2"} icon={<GroupIcon />}>
+                                    User Settings
+                                </Nav.Item>
+                                {/* <Nav.Menu
                                         eventKey="3"
                                         trigger="hover"
                                         title="Page Setting"
                                         icon={<MagicIcon />}
                                         placement="rightStart"
                                     > */}
-                                        {/* <Nav.Item eventKey="3-1" active={activeKey === "3-1"}>Rooms Setting</Nav.Item>
+                                {/* <Nav.Item eventKey="3-1" active={activeKey === "3-1"}>Rooms Setting</Nav.Item>
                                         <Nav.Item eventKey="3-2" active={activeKey === "3-2"}>Reviews</Nav.Item>
                                         <Nav.Item eventKey="3-3" active={activeKey === "3-3"}>Image Gallery</Nav.Item> */}
-                                        {/* <Nav.Item eventKey="3-4" active={activeKey === "3-4"}>Loyalty</Nav.Item>
+                                {/* <Nav.Item eventKey="3-4" active={activeKey === "3-4"}>Loyalty</Nav.Item>
                                         <Nav.Item eventKey="3-5" active={activeKey === "3-5"}>Visit Depth</Nav.Item> */}
-                                    {/* </Nav.Menu> */}
-                                    {/* <Nav.Menu
+                                {/* </Nav.Menu> */}
+                                {/* <Nav.Menu
                                         eventKey="4"
                                         trigger="hover"
                                         title="Settings"
@@ -124,22 +135,22 @@ const home = () => {
                                         <Nav.Item eventKey="4-4" active={activeKey === "4-4"}>Tags</Nav.Item>
                                         <Nav.Item eventKey="4-5" active={activeKey === "4-5"}>Versions</Nav.Item>
                                     </Nav.Menu> */}
-                                </Nav>
-                            </Sidenav.Body>
-                        </Sidenav>
-                        <NavToggle expand={expand} onChange={() => setExpand(!expand)} />
-                    </Sidebar>
+                            </Nav>
+                        </Sidenav.Body>
+                    </Sidenav>
+                    <NavToggle expand={expand} onChange={() => setExpand(!expand)} />
+                </Sidebar>
 
-                    <Container className=' h-auto overflow-scroll'>
-                        {/* <Header>
+                <Container className=' h-auto overflow-scroll'>
+                    {/* <Header>
                             <h2>Page Title</h2>
                         </Header> */}
-                        <Content className=' h-auto'>
-                            {renderContent()}
-                        </Content>
-                    </Container>
+                    <Content className=' h-auto'>
+                        {renderContent()}
+                    </Content>
                 </Container>
-            </div>
+            </Container>
+        </div>
     );
 };
 
