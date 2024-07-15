@@ -88,7 +88,7 @@ export default function popupmodel({ action, pagefresh }) {
                 classNames={{
                     body: "py-6",
                     backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-                    base: "border-[#292f46] bg-[#19172c] dark:bg-[#19172c] text-[#a8b0d3]",
+                    base: "border-[#292f46] bg-[#f0af3e] dark:bg-[#19172c] text-[#a8b0d3]",
                     header: "border-b-[1px] border-[#292f46]",
                     footer: "border-t-[1px] border-[#292f46]",
                     closeButton: "hover:bg-white/5 active:bg-white/10",
@@ -98,9 +98,11 @@ export default function popupmodel({ action, pagefresh }) {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Add New User</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1 text-black">Add New User</ModalHeader>
                             <ModalBody>
                                 <form onSubmit={handleSubmit} className=" space-y-4">
+                                <div className=" grid grid-cols-2 gap-4">
+
                                     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                                         <Input
                                             type="text"
@@ -142,7 +144,7 @@ export default function popupmodel({ action, pagefresh }) {
                                         />
                                     </div>
                                     <div className="flex flex-row w-full flex-wrap md:flex-nowrap gap-4">
-                                        <label>Username</label>
+                                        <label className=" text-black">Username</label>
                                         <Input
                                             type="text"
                                             className="border-0 focus:border-0"
@@ -154,7 +156,7 @@ export default function popupmodel({ action, pagefresh }) {
                                         />
                                     </div>
                                     <div className="flex flex-row w-full flex-wrap md:flex-nowrap gap-4">
-                                        <label>Password</label>
+                                        <label className=" text-black">Password</label>
                                         <div className=" w-full flex flex-row gap-4">
 
                                         <Input
@@ -172,7 +174,7 @@ export default function popupmodel({ action, pagefresh }) {
                                             aria-label={
                                                 showPassword ? "Password Visible" : "Password Invisible."
                                             }
-                                            className="text-white w-[2%]"
+                                            className="text-black w-[2%]"
                                             onClick={() => {
                                                 setShowPassword((prev) => !prev);
                                             }}
@@ -192,17 +194,21 @@ export default function popupmodel({ action, pagefresh }) {
                                             <option value="admin">Admin</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div className=" flex flex-row w-full justify-end gap-4 mt-10">
                                     <Button type="submit" className="mt-4" disabled={loading}>
                                         {loading ? 'Submitting...' : 'Submit'}
                                     </Button>
+                                <Button  className="mt-[15px] btn-primary bg-white text-black " onPress={onClose}>
+                                    Close
+                                </Button>
+
+                                </div>
                                 </form>
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
                                 {success && <p style={{ color: 'green' }}>{success}</p>}
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="foreground" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
 
                             </ModalFooter>
                         </>

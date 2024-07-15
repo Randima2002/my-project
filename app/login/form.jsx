@@ -25,7 +25,7 @@ const login = () => {
     });
     if (res?.error) {
       setError(res.error);
-      setSuccess(null)
+      // setSuccess(null)
     } else {
       setError(null);
       alert('Login successful! Redirecting...');

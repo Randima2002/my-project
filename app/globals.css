@@ -24,3 +24,8 @@ tr:hover{
 #user-name:hover{
     cursor: pointer;
 }
+
+select option{
+    padding: 5px auto !important;
+
+}

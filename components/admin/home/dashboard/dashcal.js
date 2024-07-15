@@ -311,7 +311,7 @@ export default function Dashcal({ Logedusername }) {
               </DropdownMenu>
             </Dropdown>
             <Popupmodel action={true} onUpdateSuccess={handleUpdateSuccess} />
-            <Button onClick={generatePDF}>Print</Button>
+            <Button onClick={generatePDF} className=' bg-green-700 text-white font-bold text-lg'>Print</Button>
 
           </div>
         </div>
@@ -347,7 +347,7 @@ export default function Dashcal({ Logedusername }) {
 
 
   return (
-    <div className=' mt-[4vh] w-[78vw]'>
+    <div className=' mt-[2vh] w-[98%]'>
       <Table
       id="table-to-print"
         aria-label="Example table with dynamic content"
