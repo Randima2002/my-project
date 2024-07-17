@@ -269,6 +269,8 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDi
 import { MdLibraryAdd } from "react-icons/md";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import Imgbill from './../../../../public/banner1.jpg';
+
 
 export default function PopupModel({ action, onUpdateSuccess }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -276,23 +278,26 @@ export default function PopupModel({ action, onUpdateSuccess }) {
     const [email, setEmail] = useState('');
     const [nic, setNic] = useState('');
     const [contact, setContact] = useState('');
-    const [stayDuration, setStayDuration] = useState({});
+    const [stayDuration, setStayDuration] = useState([]);
     const [adult, setAdult] = useState('');
     const [children, setChildren] = useState('');
     const [roomType, setRoomType] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-
+    // console.log("stayDuration : " + stayDuration);
     const handleRoomTypeChange = (event) => {
         setRoomType(event.target.value);
     };
 
-    function formatDate(date) {
-        if (!date) return '';
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
-        const day = date.getDate().toString().padStart(2, '0');
+    function formatDate(dateObj) {
+        if (!dateObj || !dateObj.year || !dateObj.month || !dateObj.day) {
+            return '';
+        }
+        console.log("dateObj : " + dateObj)
+        const year = dateObj.year;
+        const month = dateObj.month.toString().padStart(2, '0');
+        const day = dateObj.day.toString().padStart(2, '0');
         return `${year}/${month}/${day}`;
     }
 
@@ -301,35 +306,71 @@ export default function PopupModel({ action, onUpdateSuccess }) {
         const element = document.createElement('div');
         element.id = 'bill-content';
         element.innerHTML = `
-            <h1>Booking Bill</h1>
-            <p>Name: ${data.name}</p>
-            <p>Email: ${data.email}</p>
-            <p>NIC: ${data.nic}</p>
-            <p>Contact: ${data.contact}</p>
-            <p>Check-in Date: ${data.checking_date}</p>
-            <p>Check-out Date: ${data.checkout_date}</p>
-            <p>Number of Adults: ${data.adult}</p>
-            <p>Number of Children: ${data.child}</p>
-            <p>Room Type: ${data.roomType}</p>
+            
+
+             <div class=" w-[80vw] mx-auto h-auto space-y-3 p-5">
+        <div class="flex items-center justify-center mb-6">
+            <img src="${Imgbill}" alt="Circle Image" class="rounded-full w-40 h-40 object-cover">
+        </div>
+        <div class="flex flex-row items-center justify-around ml-44">
+                <div class="w-[50%] flex flex-col space-y-2">
+                    <label>Customer Name : <span>${data.name}</span></label>
+                    <label>Email : <span>${data.email}</span></label>
+                    <label>NIC : <span>${data.nic}</span></label>
+                    <label>Contact : <span>${data.contact}</span></label>
+                </div>
+                <div class="w-[50%] flex flex-col space-y-2">
+                    <label>Hotel name :  <span>Luxury Hotel </span></label>
+                    <label>Address :  <span>No:123,Colombo Road,Negambo</span></label>
+                    <label>Contact :  <span>077 456 9874</span></label>
+                    <label>Website :  <span>https://www.sample.com</span></label>
+                    <label>Email :  <span>luxury@gmail.com</span></label>
+                </div>
+        </div>
+        <div class="w-full w-full px-10 pt-5">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 border-b-2 text-left border-gray-200 bg-gray-100">Checking date</th>
+                        <th class="px-4 py-2 border-b-2 text-left border-gray-200 bg-gray-100">Checkout date</th>
+                        <th class="px-4 py-2 border-b-2 text-left border-gray-200 bg-gray-100">Room type</th>
+                        <th class="px-4 py-2 border-b-2 text-left border-gray-200 bg-gray-100">Adults</th>
+                        <th class="px-4 py-2 border-b-2 text-left border-gray-200 bg-gray-100">Kids</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-4 py-2 border-b border-gray-200">${data.checking_date}</td>
+                        <td class="px-4 py-2 border-b border-gray-200">${data.checkout_date}</td>
+                        <td class="px-4 py-2 border-b border-gray-200">${data.roomType}</td>
+                        <td class="px-4 py-2 border-b border-gray-200">${data.adult}</td>
+                        <td class="px-4 py-2 border-b border-gray-200">${data.child}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class=" text-center pb-2 pt-[60px] text-4xl font-bold">Thank You Come Again </div>
+    </div>
         `;
+
         document.body.appendChild(element);
-    
+
         const canvas = await html2canvas(element);
         const imgData = canvas.toDataURL('image/png');
         doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
-    
+
         // Save PDF locally
         doc.save('booking_bill.pdf');
-    
+
         document.body.removeChild(element);
         const pdfBlob = doc.output('blob');
-    
+
         // Create a URL for the PDF blob
         const pdfUrl = URL.createObjectURL(pdfBlob);
-    
+
         return pdfUrl;
     };
-    
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -341,13 +382,13 @@ export default function PopupModel({ action, onUpdateSuccess }) {
             email,
             nic,
             contact,
-            checking_date: formatDate(stayDuration.startDate),
-            checkout_date: formatDate(stayDuration.endDate),
+            checking_date: formatDate(stayDuration.start).toString(),
+            checkout_date: formatDate(stayDuration.end).toString(),
             adult,
             child: children,
             roomType
         };
-        console.log("data const complete..!");
+        console.log("data const complete..! : " + data);
 
         try {
             const response = await fetch('/api/booking', {
@@ -366,14 +407,17 @@ export default function PopupModel({ action, onUpdateSuccess }) {
 
             const result = await response.json();
             setSuccess('Booking created successfully!');
-            setName('');
-            setEmail('');
-            setNic('');
-            setContact('');
+            setName(" ");
+            setEmail(' ');
+            setNic(' ');
+            setContact(' ');
             setStayDuration({});
-            setAdult('');
-            setChildren('');
-            setRoomType('');
+            setAdult(' ');
+            setChildren(' ');
+            setRoomType(' ');
+
+            console.log("result is  : " + result)
+            console.log("Data is : " + data)
             const pdfUrl = await generatePDF(data);  // Generate PDF
             // const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfUrl}`;
             const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfUrl}`
@@ -485,8 +529,8 @@ export default function PopupModel({ action, onUpdateSuccess }) {
                                                 label="Set Stay duration"
                                                 className="max-w-full mb-4 laptop:mb-0 w-full"
                                                 name="stayduration"
-                                                required
-                                                onChange={(range) => setStayDuration(range)}
+                                                required 
+                                                onChange={(e) => setStayDuration(e)}
                                             />
                                         </div>
                                         <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
@@ -524,3 +568,13 @@ export default function PopupModel({ action, onUpdateSuccess }) {
         </>
     );
 }
+{/* <h1>Booking Bill</h1>
+            <p>Name: ${data.name}</p>
+            <p>Email: ${data.email}</p>
+            <p>NIC: ${data.nic}</p>
+            <p>Contact: ${data.contact}</p>
+            <p>Check-in Date: ${data.checking_date}</p>
+            <p>Check-out Date: ${data.checkout_date}</p>
+            <p>Number of Adults: ${data.adult}</p>
+            <p>Number of Children: ${data.child}</p>
+            <p>Room Type: ${data.roomType}</p> */}

@@ -54,9 +54,9 @@ export default function Dashcal({ Logedusername }) {
   const [refresh, setRefresh] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+
   useEffect(() => {
     const fetchData = async () => {
-
       try {
         const response = await fetch('/api/booking', { cache: "no-store" });
         const data = await response.json();
@@ -65,7 +65,6 @@ export default function Dashcal({ Logedusername }) {
         console.error('Fetching Error: ', error);
       }
     };
-
     fetchData();
   }, [refresh]);
 
@@ -129,16 +128,12 @@ export default function Dashcal({ Logedusername }) {
         const response = await fetch(`/api/booking/${id}`, {
           method: 'DELETE',
         });
-
+        handleUpdateSuccess();
+        if (!response.ok) {
+          throw new Error('Failed to delete booking');
+        }
+        alert('Booking deleted successfully');
       }
-
-      if (!response.ok) {
-        throw new Error('Failed to delete booking');
-      }
-      handleUpdateSuccess();
-
-      console.log('Booking deleted successfully');
-
     } catch (error) {
       console.error('Error deleting booking:', error);
     }
@@ -235,13 +230,13 @@ export default function Dashcal({ Logedusername }) {
       // pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       // pdf.save('Booking-Details.pdf');
       pdf.setFontSize(16);
-      const margin = 5; 
+      const margin = 5;
       // pdf.text('Booking Details', 15, 15); 
       const headerText = `Booking Details${startDate && endDate ? ` From ${startDate} To ${endDate}` : ''}`;
       // pdf.text("Booking Details+`${startDate && endDate ? ` From ${startDate} To ${endDate}` : ' '}"); // Adding header text with date range
-      pdf.text(headerText, margin, margin + 10); 
+      pdf.text(headerText, margin, margin + 10);
       pdf.addImage(imgData, 'PNG', 15, 25, pdfWidth - 25, pdfHeight); // Adjust coordinates and size as needed
-      
+
       pdf.save('Booking-Details.pdf');
     });
   };
@@ -343,13 +338,13 @@ export default function Dashcal({ Logedusername }) {
     );
   }, [page, pages, rowsPerPage, onRowsPerPageChange]);
 
-  
+
 
 
   return (
     <div className=' mt-[2vh] w-[98%]'>
       <Table
-      id="table-to-print"
+        id="table-to-print"
         aria-label="Example table with dynamic content"
         bottomContent={bottomContent}
         classNames={{
