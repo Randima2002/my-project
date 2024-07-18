@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 const handler = NextAuth({
     session: {
         strategy: "jwt",
+        maxAge: 12 * 60 * 60
     },
     pages: {
         signIn: '/login'

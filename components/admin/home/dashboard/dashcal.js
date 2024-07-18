@@ -29,7 +29,7 @@ import { capitalize } from './utils';
 import Popupmodel from './popupmodel';
 import { MdDelete } from "react-icons/md";
 import Popupeditmodel from './popupeditmodel';
-
+;
 
 const statusColorMap = {
   active: 'success',
@@ -55,25 +55,8 @@ export default function Dashcal({ Logedusername }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/booking', { cache: "no-store" });
-        const data = await response.json();
-        setUsers(data);
-      } catch (error) {
-        console.error('Fetching Error: ', error);
-      }
-    };
-    fetchData();
-  }, [refresh]);
-
-  const handleUpdateSuccess = () => {
-    setRefresh(!refresh);
-  };
-
   const pages = Math.ceil(users.length / rowsPerPage);
-
+  
   const hasSearchFilter = Boolean(filterValue);
 
   const headerColumns = React.useMemo(() => {
@@ -121,18 +104,45 @@ export default function Dashcal({ Logedusername }) {
     });
   }, [sortDescriptor, items]);
 
-  const deleteuser = async (user) => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/booking', { cache: "no-store" });
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.error('Fetching Error: ', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/booking', { cache: "no-store" });
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error('Fetching Error: ', error);
+      }
+    };
+    fetchData();
+  }, [refresh]);
+
+  const handleUpdateSuccess = () => {
+    setRefresh(!refresh);
+  };
+
+  const deleteUser = async (user) => {
     const id = user.id;
     try {
       if (confirm("Do You need to Delete this Booking.")) {
         const response = await fetch(`/api/booking/${id}`, {
           method: 'DELETE',
         });
-        handleUpdateSuccess();
         if (!response.ok) {
-          throw new Error('Failed to delete booking');
+          alert('Failed to delete booking');
         }
         alert('Booking deleted successfully');
+        fetchData();
       }
     } catch (error) {
       console.error('Error deleting booking:', error);
@@ -141,61 +151,14 @@ export default function Dashcal({ Logedusername }) {
 
   const renderCell = React.useCallback((user, columnKey, id) => {
     const cellValue = user[columnKey];
-    // const cellid = user.id;
-    // console.log("user : " ,user);
-    // console.log("columnKey : " ,columnKey)
-    // console.log("cellValue : " ,cellValue)
-    // console.log("cellid : " , id)
     switch (columnKey) {
-      // case 'name':
-      //   return (
-      //     <User
-      //       avatarProps={{ radius: 'full', size: 'sm', src: user.avatar }}
-      //       classNames={{
-      //         description: 'text-default-500',
-      //       }}
-      //       description={user.email}
-      //       name={cellValue}
-      //     >
-      //       {user.email}
-      //     </User>
-      //   );
-      // case 'role':
-      //   return (
-      //     <div className="flex flex-col">
-      //       <p className="text-bold text-small capitalize">{cellValue}</p>
-      //       <p className="text-bold text-tiny capitalize text-default-500">{user.team}</p>
-      //     </div>
-      //   );
-      // case 'status':
-      //   return (
-      //     <Chip
-      //       className="capitalize border-none gap-1 text-default-600"
-      //       color={statusColorMap[user.status]}
-      //       size="sm"
-      //       variant="dot"
-      //     >
-      //       {cellValue}
-      //     </Chip>
-      //   );
+     
       case 'actions':
         return (
           <div className="relative flex items-center">
-            {/* <Dropdown className="bg-background border-1 border-default-200">
-              <DropdownTrigger>
-                <Button isIconOnly radius="full" size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-400" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem onClick={() => editBooking(user.id)}>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown> */}
             <div className=' flex flex-row gap-3'>
               <button className=' '><Popupeditmodel data={user} action={true} onUpdateSuccess={handleUpdateSuccess} /></button>
-              <button className="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-4 min-w-20 h-10 text-small gap-2 rounded-medium [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none data-[hover=true]:opacity-hover bg-black text-white font-bold -mt-1 hover:opacity-75" onClick={() => deleteuser(user)}>Delete Booking</button>
+              <button className="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-4 min-w-20 h-10 text-small gap-2 rounded-medium [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none data-[hover=true]:opacity-hover bg-black text-white font-bold -mt-1 hover:opacity-75" onClick={() => deleteUser(user)}>Delete Booking</button>
             </div>
           </div>
         );

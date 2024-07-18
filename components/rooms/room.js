@@ -2,7 +2,7 @@ import React from 'react';
 import reviewBack from './../../public/banner1.jpg';
 
 
-export default function room({ category }) {
+export default function room({ category,des }) {
     return (
         <div className=' w-full max-w-[600px]'>
             <div className=' w-full '>
@@ -13,9 +13,9 @@ export default function room({ category }) {
                         objectFit: 'cover',
                         backgroundPosition: 'center'
                     }}>
-                    <div className=' p-5 space-y-1 absolute bottom-0'>
-                        <h2 className=' flex font-bold text-white text-[15px]'>{category}</h2>
-                        <p className=' w-full pr-3 text-white text-justify'>yoo</p>
+                    <div className=' p-5 space-y-1 absolute bottom-4'>
+                        <h2 className=' flex font-bold text-white text-[25px]'>{category}</h2>
+                        <p className=' w-full pr-3 text-white text-justify text-[18px]'>{des}</p>
                     </div>
                 </div>
 
