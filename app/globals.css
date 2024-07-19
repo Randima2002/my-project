@@ -1,35 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'select2/dist/css/select2.css';
 
-*{
+* {
     scroll-behavior: smooth !important;
 }
 
-input{
+input {
     border: none;
 }
 
-input:focus{
-    --tw-ring-shadow:none !important;
+input:focus {
+    --tw-ring-shadow: none !important;
 }
 
 
-.group{
+.group {
     border-radius: 12px !important;
 }
 
-tr:hover{
+tr:hover {
     background-color: gainsboro !important;
     cursor: pointer !important;
 }
 
 #crd:hover,
-#user-name:hover{
+#user-name:hover {
     cursor: pointer;
 }
 
-select option{
+select option {
     padding: 5px auto !important;
+
+}
+
+.css-b62m3t-container {
+    width: 100% !important;
+    height: 100% !important;
+
+}
+
+.css-1mqnzrz-control {
+
+    height: 100% !important;
+    width: 100% !important;
+
+}
+
+.css-1qrxvr1-singleValue {
+    width: 100% !important;
+    height: 100% !important;
+    margin: auto !important;
+    margin-top: 5px !important;
 
 }

@@ -4,6 +4,7 @@ import { Input } from "@nextui-org/react";
 import { DateRangePicker } from "@nextui-org/react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import Select from 'react-select';
 
 export default function popupeditmodel({ data, action,onUpdateSuccess }) {
     console.log("My data  :" , data)
@@ -26,7 +27,14 @@ export default function popupeditmodel({ data, action,onUpdateSuccess }) {
     // console.log("data is : ", data);
     // console.log("data id is : ", data.id);
 
+    const userTypeOptions = [
+        { value: 'user', label: 'User' },
+        { value: 'admin', label: 'Admin' }
+    ];
 
+    const handleUserTypeChange = (selectedOption) => {
+        setisadmin(selectedOption ? selectedOption.value : '');
+    };
 
     // function parseDateRange(startDateString, endDateString) {
     //     const parseDate = (dateString) => {
@@ -47,10 +55,10 @@ export default function popupeditmodel({ data, action,onUpdateSuccess }) {
     //         end: parseDate(endDateString)
     //     };
     // }
-    const handleUserTypeChange = (event) => {
-        const { value } = event.target;
-        setisadmin(value);
-    };
+    // const handleUserTypeChange = (event) => {
+    //     const { value } = event.target;
+    //     setisadmin(value);
+    // };
 
     const handleUpdate = async (event) => {
         event.preventDefault();
@@ -232,11 +240,39 @@ export default function popupeditmodel({ data, action,onUpdateSuccess }) {
                                             <option value="Double Room">Double Room</option>
                                             <option value="Triple Room">Triple Room</option>
                                         </select> */}
-                                        <select onChange={handleUserTypeChange} value={isadmin} className="border-0 focus:border-0 bg-white text-black">
+                                        {/* <select onChange={handleUserTypeChange} value={isadmin} className="border-0 focus:border-0 bg-white text-black">
                                             <option value="user">Select User Type</option>
                                             <option value="user">User</option>
                                             <option value="admin">Admin</option>
-                                        </select>
+                                        </select> */}
+                                         <Select
+                                                options={userTypeOptions}
+                                                value={userTypeOptions.find(option => option.value === isadmin)}
+                                                onChange={handleUserTypeChange}
+                                                placeholder="Select User Type"
+                                                styles={{
+                                                    control: (provided) => ({
+                                                        ...provided,
+                                                        border: '0',
+                                                        boxShadow: 'none',
+                                                        backgroundColor: 'white',
+                                                        color: 'black',
+                                                        width: '100%',
+                                                        borderRadius: '0.375rem',
+                                                        padding: '0.5rem',
+                                                    }),
+                                                    option: (provided, state) => ({
+                                                        ...provided,
+                                                        backgroundColor: state.isSelected ? 'green' : 'white',
+                                                        color: state.isSelected ? 'white' : 'black',
+                                                        padding: '0.5rem',
+                                                    }),
+                                                    singleValue: (provided) => ({
+                                                        ...provided,
+                                                        color: 'black',
+                                                    }),
+                                                }}
+                                            />
                                     </div>
                                 </div>
                                 <div className=" flex flex-row w-full justify-end gap-4 mt-10">

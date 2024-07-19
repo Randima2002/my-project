@@ -157,7 +157,7 @@ export default function Dashcal({ Logedusername }) {
         return (
           <div className="relative flex items-center">
             <div className=' flex flex-row gap-3'>
-              <button className=' '><Popupeditmodel data={user} action={true} onUpdateSuccess={handleUpdateSuccess} /></button>
+              <button className=' '><Popupeditmodel data={user} action={true} onUpdateSuccess={fetchData} /></button>
               <button className="z-0 group relative inline-flex items-center justify-center box-border appearance-none select-none whitespace-nowrap subpixel-antialiased overflow-hidden tap-highlight-transparent data-[pressed=true]:scale-[0.97] outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 px-4 min-w-20 h-10 text-small gap-2 rounded-medium [&>svg]:max-w-[theme(spacing.8)] transition-transform-colors-opacity motion-reduce:transition-none data-[hover=true]:opacity-hover bg-black text-white font-bold -mt-1 hover:opacity-75" onClick={() => deleteUser(user)}>Delete Booking</button>
             </div>
           </div>
@@ -268,7 +268,7 @@ export default function Dashcal({ Logedusername }) {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Popupmodel action={true} onUpdateSuccess={handleUpdateSuccess} />
+            <Popupmodel action={true} onUpdateSuccess={fetchData} />
             <Button onClick={generatePDF} className=' bg-green-700 text-white font-bold text-lg'>Print</Button>
 
           </div>

@@ -5,6 +5,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 import { DateRangePicker } from "@nextui-org/react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import Select from 'react-select';
 
 export default function popupmodel({ action, pagefresh }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -23,9 +24,17 @@ export default function popupmodel({ action, pagefresh }) {
     const [success, setSuccess] = useState(' ');
 
 
-    const handleUserTypeChange = (event) => {
-        const { value } = event.target;
-        setisadmin(value);
+    // const handleUserTypeChange = (event) => {
+    //     const { value } = event.target;
+    //     setisadmin(value);
+    // };
+    const userTypeOptions = [
+        { value: 'user', label: 'User' },
+        { value: 'admin', label: 'Admin' }
+    ];
+
+    const handleUserTypeChange = (selectedOption) => {
+        setisadmin(selectedOption ? selectedOption.value : '');
     };
 
     const handleSubmit = async (event) => {
@@ -41,9 +50,9 @@ export default function popupmodel({ action, pagefresh }) {
             contact,
             isadmin,
             username,
-            password:passwords
+            password: passwords
         }
-        console.log("data is : ",data)
+        console.log("data is : ", data)
         try {
             const response = await fetch('/api/user', {
                 method: 'POST',
@@ -101,109 +110,133 @@ export default function popupmodel({ action, pagefresh }) {
                             <ModalHeader className="flex flex-col gap-1 text-black">Add New User</ModalHeader>
                             <ModalBody>
                                 <form onSubmit={handleSubmit} className=" space-y-4">
-                                <div className=" grid grid-cols-2 gap-4">
+                                    <div className=" grid grid-cols-2 gap-4">
 
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0 ring-offset-0"
-                                            name="name"
-                                            placeholder="Enter name"
-                                            required 
-                                            onChange={(e) => setName(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="email"
-                                            className="border-0 focus:border-0"
-                                            name="email"
-                                            required 
-                                            placeholder="Enter email"
-                                            onChange={(e) => setemail(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0"
-                                            name="nic"
-                                            required 
-                                            placeholder="Enter NIC"
-                                            onChange={(e) => setnic(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0"
-                                            name="contact"
-                                            required 
-                                            placeholder="Enter contact number"
-                                            onChange={(e) => setcontact(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex flex-row w-full flex-wrap md:flex-nowrap gap-4">
-                                        <label className=" text-black">Username</label>
-                                        <Input
-                                            type="text"
-                                            className="border-0 focus:border-0"
-                                            name="username"
-                                            required 
-                                            // value={name}
-                                            placeholder="username "
-                                            onChange={(e) => setusername(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="flex flex-row w-full flex-wrap md:flex-nowrap gap-4">
-                                        <label className=" text-black">Password</label>
-                                        <div className=" w-full flex flex-row gap-4">
+                                        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0 ring-offset-0"
+                                                name="name"
+                                                placeholder="Enter name"
+                                                required
+                                                onChange={(e) => setName(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                                            <Input
+                                                type="email"
+                                                className="border-0 focus:border-0"
+                                                name="email"
+                                                required
+                                                placeholder="Enter email"
+                                                onChange={(e) => setemail(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0"
+                                                name="nic"
+                                                required
+                                                placeholder="Enter NIC"
+                                                onChange={(e) => setnic(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0"
+                                                name="contact"
+                                                required
+                                                placeholder="Enter contact number"
+                                                onChange={(e) => setcontact(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex flex-row w-full flex-wrap md:flex-nowrap gap-4">
+                                            <label className=" text-black">Username</label>
+                                            <Input
+                                                type="text"
+                                                className="border-0 focus:border-0"
+                                                name="username"
+                                                required
+                                                // value={name}
+                                                placeholder="username "
+                                                onChange={(e) => setusername(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex flex-row w-full flex-wrap md:flex-nowrap gap-4">
+                                            <label className=" text-black">Password</label>
+                                            <div className=" w-full flex flex-row gap-4">
 
-                                        <Input
-                                            type={showPassword ? "text" : "password"}
-                                            className="border-0 focus:border-0 w-[95%]"
-                                            name="password"
-                                            required 
-                                            id="password"
-                                            placeholder=" "
-                                            onChange={(e) => setpassword(e.target.value)}
-                                        />
-                                    
-                                        <button
-                                            type="button"
-                                            aria-label={
-                                                showPassword ? "Password Visible" : "Password Invisible."
-                                            }
-                                            className="text-black w-[2%]"
-                                            onClick={() => {
-                                                setShowPassword((prev) => !prev);
-                                            }}
-                                            >
-                                            {showPassword ? (
-                                               <FaEye/>
-                                            ) : (
-                                                <FaEyeSlash />
-                                            )}
-                                        </button>
+                                                <Input
+                                                    type={showPassword ? "text" : "password"}
+                                                    className="border-0 focus:border-0 w-[95%]"
+                                                    name="password"
+                                                    required
+                                                    id="password"
+                                                    placeholder=" "
+                                                    onChange={(e) => setpassword(e.target.value)}
+                                                />
+
+                                                <button
+                                                    type="button"
+                                                    aria-label={
+                                                        showPassword ? "Password Visible" : "Password Invisible."
+                                                    }
+                                                    className="text-black w-[2%]"
+                                                    onClick={() => {
+                                                        setShowPassword((prev) => !prev);
+                                                    }}
+                                                >
+                                                    {showPassword ? (
+                                                        <FaEye />
+                                                    ) : (
+                                                        <FaEyeSlash />
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+                                            <Select
+                                                options={userTypeOptions}
+                                                onChange={handleUserTypeChange}
+                                                placeholder="Select User Type"
+                                                styles={{
+                                                    control: (provided) => ({
+                                                        ...provided,
+                                                        border: '0',
+                                                        boxShadow: 'none',
+                                                        backgroundColor: 'white',
+                                                        color: 'black',
+                                                        width: '100%',
+                                                        borderRadius: '0.375rem',
+                                                        padding: '0.5rem',
+                                                    }),
+                                                    option: (provided, state) => ({
+                                                        ...provided,
+                                                        // backgroundColor: state.isSelected ? '#e2e2e2' : 'white',
+                                                        // color: state.isSelected ? 'black' : 'black',
+                                                        backgroundColor: state.isSelected ? 'green' : 'white',
+                                                        color: state.isSelected ? 'white' : 'black',
+                                                        padding: '0.5rem',
+                                                    }),
+                                                    singleValue: (provided) => ({
+                                                        ...provided,
+                                                        color: 'black',
+                                                    }),
+                                                }}
+                                            />
                                         </div>
                                     </div>
-                                    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                        <select onChange={handleUserTypeChange} className="border-0 focus:border-0 bg-white text-black">
-                                            <option value="user">Select User Type</option>
-                                            <option value="user">User</option>
-                                            <option value="admin">Admin</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className=" flex flex-row w-full justify-end gap-4 mt-10">
-                                    <Button type="submit" className="mt-4" disabled={loading}>
-                                        {loading ? 'Submitting...' : 'Submit'}
-                                    </Button>
-                                <Button  className="mt-[15px] btn-primary bg-white text-black " onPress={onClose}>
-                                    Close
-                                </Button>
+                                    <div className=" flex flex-row w-full justify-end gap-4 mt-10">
+                                        <Button type="submit" className="mt-4" disabled={loading}>
+                                            {loading ? 'Submitting...' : 'Submit'}
+                                        </Button>
+                                        <Button className="mt-[15px] btn-primary bg-white text-black " onPress={onClose}>
+                                            Close
+                                        </Button>
 
-                                </div>
+                                    </div>
                                 </form>
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
                                 {success && <p style={{ color: 'green' }}>{success}</p>}

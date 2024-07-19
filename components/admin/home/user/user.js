@@ -63,6 +63,8 @@ export default function User() {
     },
   });
 
+  
+
   // Refresh the data when refresh state changes
   React.useEffect(() => {
     list.reload();

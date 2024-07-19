@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { DateRangePicker } from "@nextui-org/react";
-
+import Select from "react-select";
 
 export default function popupeditmodel({ data, action, onUpdateSuccess }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -23,36 +23,18 @@ export default function popupeditmodel({ data, action, onUpdateSuccess }) {
     const [success, setSuccess] = useState('');
 
 
-    const handleRoomTypeChange = (event) => {
-        const { value } = event.target;
-        setroomType({ ...roomType, room: value });
+    const roomTypeOptions = [
+        { value: 'Single Room AC', label: 'Single Room AC' },
+        { value: 'Single Room Non AC', label: 'Single Room Non AC' },
+        { value: 'Double Room AC', label: 'Double Room AC' },
+        { value: 'Double Room Non AC', label: 'Double Room Non AC' },
+        { value: 'Triple Room AC', label: 'Triple Room AC' },
+        { value: 'Triple Room Non AC', label: 'Triple Room Non AC' },
+    ];
+
+    const handleRoomTypeChange = (selectedOption) => {
+        setroomType(selectedOption ? selectedOption.value : '');
     };
-
-    // console.log("data is : ", data);
-    // console.log("data id is : ", data.id);
-
-
-
-    // function parseDateRange(startDateString, endDateString) {
-    //     const parseDate = (dateString) => {
-    //         const [year, month, day] = dateString.split('/');
-    //         return {
-    //             calendar: {
-    //                 identifier: "gregory"
-    //             },
-    //             era: "AD",
-    //             year: parseInt(year, 10),
-    //             month: parseInt(month, 10),
-    //             day: parseInt(day, 10)
-    //         };
-    //     };
-
-    //     return {
-    //         start: parseDate(startDateString),
-    //         end: parseDate(endDateString)
-    //     };
-    // }
-
 
     const handleUpdate = async (event) => {
         event.preventDefault();
@@ -69,7 +51,7 @@ export default function popupeditmodel({ data, action, onUpdateSuccess }) {
             checkout_date: checkout_date,
             adult: adult,
             child: children,
-            roomType: roomType.room
+            roomType
         }
         console.log("data const complete..!")
         console.log("updated data is :", data)
@@ -90,16 +72,8 @@ export default function popupeditmodel({ data, action, onUpdateSuccess }) {
 
             const result = await response.json();
             setSuccess('Booking Update successfully!');
-            setName(" ");
-            setemail(" ");
-            setnic(" ");
-            setcontact(" ");
-            // setstayDuration(" ");
-            setadult(" ");
-            setachildren(" ");
-            setroomType(" ");
-            onUpdateSuccess();
             onOpenChange(false);
+            onUpdateSuccess();
         } catch (error) {
             setError(error.message);
         } finally {
@@ -220,12 +194,40 @@ export default function popupeditmodel({ data, action, onUpdateSuccess }) {
                                             />
                                         </div>
                                         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                            <select onChange={handleRoomTypeChange} value={roomType} className="border-0 focus:border-0 bg-white text-black">
+                                            {/* <select onChange={handleRoomTypeChange} value={roomType} className="border-0 focus:border-0 bg-white text-black">
                                                 <option value="">Select Room Type</option>
                                                 <option value="Single Room">Single Room</option>
                                                 <option value="Double Room">Double Room</option>
                                                 <option value="Triple Room">Triple Room</option>
-                                            </select>
+                                            </select> */}
+                                             <Select
+                                                options={roomTypeOptions}
+                                                value={roomTypeOptions.find(option => option.value === roomType)}
+                                                onChange={handleRoomTypeChange}
+                                                placeholder="Select Room Type"
+                                                styles={{
+                                                    control: (provided) => ({
+                                                        ...provided,
+                                                        border: '0',
+                                                        boxShadow: 'none',
+                                                        backgroundColor: 'white',
+                                                        color: 'black',
+                                                        width: '100%',
+                                                        borderRadius: '0.375rem',
+                                                        padding: '0.5rem',
+                                                    }),
+                                                    option: (provided, state) => ({
+                                                        ...provided,
+                                                        backgroundColor: state.isSelected ? 'green' : 'white',
+                                                        color: state.isSelected ? 'white' : 'black',
+                                                        padding: '0.5rem',
+                                                    }),
+                                                    singleValue: (provided) => ({
+                                                        ...provided,
+                                                        color: 'black',
+                                                    }),
+                                                }}
+                                            />
                                         </div>
                                     </div>
                                     <div className=" flex flex-row w-full justify-end gap-4 mt-10">

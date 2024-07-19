@@ -4,7 +4,7 @@ import { MdLibraryAdd } from "react-icons/md";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import Imgbill from './../../../../public/banner1.jpg';
-
+import Select from 'react-select';
 
 export default function PopupModel({ action, onUpdateSuccess }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -20,8 +20,9 @@ export default function PopupModel({ action, onUpdateSuccess }) {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     // console.log("stayDuration : " + stayDuration);
-    const handleRoomTypeChange = (event) => {
-        setRoomType(event.target.value);
+    const handleRoomTypeChange = (selectedOption) => {
+        // setRoomType(event.target.value);
+        setRoomType(selectedOption ? selectedOption.value : '');
     };
 
     function formatDate(dateObj) {
@@ -90,8 +91,8 @@ export default function PopupModel({ action, onUpdateSuccess }) {
         document.body.appendChild(element);
 
         const canvas = await html2canvas(element);
-        const imgData = canvas.toDataURL('image/png');
-        doc.addImage(imgData, 'PNG', 10, 10, 190, 0);
+        const imgData = canvas.toDataURL('image/jpg');
+        doc.addImage(imgData, 'JPG', 10, 10, 190, 0);
 
         // Save PDF locally
         doc.save('booking_bill.pdf');
@@ -141,28 +142,58 @@ export default function PopupModel({ action, onUpdateSuccess }) {
 
             const result = await response.json();
             setSuccess('Booking created successfully!');
-            setName(" ");
-            setEmail(' ');
-            setNic(' ');
-            setContact(' ');
-            setStayDuration({});
-            setAdult(' ');
-            setChildren(' ');
-            setRoomType(' ');
-
-            console.log("result is  : " + result)
-            console.log("Data is : " + data)
-            const pdfUrl = await generatePDF(data);  // Generate PDF
-            // const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfUrl}`;
-            const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfUrl}`
-            window.open(whatsappUrl, '_blank');  
+            // console.log("result is  : " + result)
+            // console.log("Data is : " + data)
             onUpdateSuccess();
+            const pdfUrl = await generatePDF(data);  // Generate PDF
+            const pdfFilePath = `C:/Users/ADMIN/Desktop/pdf/${pdfUrl}`;
+            // const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfUrl}`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfFilePath}`
+            window.open(whatsappUrl, '_blank');
+            onOpenChange(false);
+            setSuccess(null);
+            setError(null)
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
         }
     };
+
+    const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            border: 'none',
+            boxShadow: 'none',
+            width: '100%',
+            backgroundColor: 'white',
+            color: 'black',
+            borderRadius: '10px',
+            padding: '10px 1rem',
+        }),
+        option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isSelected ? 'green' : 'white',
+            color: state.isSelected ? 'white' : 'black',
+            padding: '10px 1rem',
+            width: '100%',
+
+        }),
+        singleValue: (provided) => ({
+            ...provided,
+            color: 'black',
+        }),
+    };
+
+    const options = [
+        { value: 'Single Room AC', label: 'Single Room AC' },
+        { value: 'Single Room Non AC', label: 'Single Room Non AC' },
+        { value: 'Double Room AC', label: 'Double Room AC' },
+        { value: 'Double Room Non AC', label: 'Double Room Non AC' },
+        { value: 'Triple Room AC', label: 'Triple Room AC' },
+        { value: 'Triple Room Non AC', label: 'Triple Room Non AC' },
+    ];
+
 
     return (
         <>
@@ -263,23 +294,30 @@ export default function PopupModel({ action, onUpdateSuccess }) {
                                                 label="Set Stay duration"
                                                 className="max-w-full mb-4 laptop:mb-0 w-full"
                                                 name="stayduration"
-                                                required 
+                                                required
                                                 onChange={(e) => setStayDuration(e)}
                                             />
                                         </div>
                                         <div className="flex w-full flex-wrap laptop:flex-nowrap gap-4">
-                                            <select
+                                            {/* <select
                                                 onChange={handleRoomTypeChange}
                                                 className="border-0 focus:border-0 w-full bg-white text-black mb-4 laptop:mb-0 rounded-xl px-4 py-2"
                                             >
                                                 <option value="">Select Room Type</option>
-                                                <option value="Single Room AC">Single Room AC</option>
+                                                <option value="Single Room AC" className=" bg-red-300 my-10">Single Room AC</option>
                                                 <option value="Single Room Non AC">Single Room Non AC</option>
                                                 <option value="Double Room AC">Double Room AC</option>
                                                 <option value="Double Room Non AC">Double Room Non AC</option>
                                                 <option value="Triple Room AC">Triple Room AC</option>
                                                 <option value="Triple Room Non AC">Triple Room Non AC</option>
-                                            </select>
+                                            </select> */}
+                                             <Select
+                                                value={options.find(option => option.value === roomType)}
+                                                onChange={handleRoomTypeChange}
+                                                options={options}
+                                                styles={customStyles}
+                                                placeholder="Select room type"
+                                            />
                                         </div>
                                     </div>
                                     <div className="flex flex-row w-full justify-end gap-4 mt-10">
