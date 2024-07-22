@@ -29,7 +29,7 @@ import { capitalize } from './utils';
 import Popupmodel from './popupmodel';
 import { MdDelete } from "react-icons/md";
 import Popupeditmodel from './popupeditmodel';
-;
+import Review from './../../../../public/review.png';
 
 const statusColorMap = {
   active: 'success',
@@ -181,28 +181,75 @@ export default function Dashcal({ Logedusername }) {
     }
   }, []);
 
-  const generatePDF = () => {
+  // const generatePDF = () => {
+  //   const input = document.getElementById('table-to-print');
+  //   html2canvas(input).then((canvas) => {
+  //     const imgData = canvas.toDataURL('image/png');
+  //     const pdf = new jsPDF('p', 'mm', 'a4');
+  //     const imgProps = pdf.getImageProperties(imgData);
+  //     const pdfWidth = pdf.internal.pageSize.getWidth();
+  //     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  //     pdf.setFontSize(16);
+  //     const margin = 5;
+  //     const headerText = `Booking Details${startDate && endDate ? ` From ${startDate} To ${endDate}` : ''}`;
+  //     pdf.text(headerText, margin, margin + 10);
+  //     pdf.addImage(imgData, 'PNG', 15, 25, pdfWidth - 25, pdfHeight); // Adjust coordinates and size as needed
+
+  //     pdf.save('Booking-Details.pdf');
+  //   });
+  // };
+
+  // Function to load an image and return a Promise
+const loadImage = (src) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => resolve(img);
+    img.onerror = (err) => reject(err);
+  });
+};
+
+const generatePDF = async () => {
+  try {
     const input = document.getElementById('table-to-print');
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL('./../../../../public/Logo.webp');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    
+    // Ensure startDate and endDate are defined
+    
 
-      // pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      // pdf.save('Booking-Details.pdf');
-      pdf.setFontSize(16);
-      const margin = 5;
-      // pdf.text('Booking Details', 15, 15); 
-      const headerText = `Booking Details${startDate && endDate ? ` From ${startDate} To ${endDate}` : ''}`;
-      // pdf.text("Booking Details+`${startDate && endDate ? ` From ${startDate} To ${endDate}` : ' '}"); // Adding header text with date range
-      pdf.text(headerText, margin, margin + 10);
-      pdf.addImage(imgData, 'PNG', 15, 25, pdfWidth - 25, pdfHeight); // Adjust coordinates and size as needed
+    // Load the review image
+    const reviewImg = await loadImage('/review.png'); // Correct path to the image
 
-      pdf.save('Booking-Details.pdf');
-    });
-  };
+    // Generate canvas from the HTML element
+    const canvas = await html2canvas(input);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    console.log(pdfWidth);
+
+    // Adjusting the positioning
+    const margin = 5;
+    const headerText = `Booking Details${startDate && endDate ? ` From ${startDate} To ${endDate}` : ''}`;
+    const imageWidth = 20; // Adjust as needed
+    const imageHeight = 20; // Adjust as needed
+
+    // Add the review image to the top right
+    pdf.addImage(reviewImg, 'PNG', pdfWidth - imageWidth - margin, margin, imageWidth, imageHeight);
+
+    // Add the header text to the top left
+    pdf.setFontSize(16);
+    pdf.text(headerText, margin, margin + 10);
+
+    // Add the table image below the header
+    pdf.addImage(imgData, 'PNG', margin+4, margin + 10 + imageHeight, pdfWidth - 2 * margin, pdfHeight);
+
+    // Save the PDF
+    pdf.save('Booking-Details.pdf');
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+  }
+};
 
 
 
@@ -311,7 +358,7 @@ export default function Dashcal({ Logedusername }) {
         aria-label="Example table with dynamic content"
         bottomContent={bottomContent}
         classNames={{
-          base: 'border-1 ml-3 p-4',
+          base: ' ml-3',
           table: 'min-h-auto max-h-[80vh] w-[78vw] overflow-scroll',
         }}
         sortDescriptor={sortDescriptor}

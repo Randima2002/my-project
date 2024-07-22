@@ -5,6 +5,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import Imgbill from './../../../../public/banner1.jpg';
 import Select from 'react-select';
+import Review from './../../../../public/review.png';
 
 export default function PopupModel({ action, onUpdateSuccess }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -36,6 +37,15 @@ export default function PopupModel({ action, onUpdateSuccess }) {
         return `${year}/${month}/${day}`;
     }
 
+    const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve(img);
+            img.onerror = (err) => reject(err);
+        });
+    };
+
     const generatePDF = async (data) => {
         const doc = new jsPDF();
         const element = document.createElement('div');
@@ -43,10 +53,7 @@ export default function PopupModel({ action, onUpdateSuccess }) {
         element.innerHTML = `
             
 
-             <div class=" w-[80vw] mx-auto h-auto space-y-3 p-5">
-        <div class="flex items-center justify-center mb-6">
-            <img src="${Imgbill}" alt="Circle Image" class="rounded-full w-40 h-40 object-cover">
-        </div>
+             <div class=" w-[80vw] mx-auto h-auto space-y-3 p-5 pt-4">
         <div class="flex flex-row items-center justify-around ml-44">
                 <div class="w-[50%] flex flex-col space-y-2">
                     <label>Customer Name : <span>${data.name}</span></label>
@@ -62,7 +69,7 @@ export default function PopupModel({ action, onUpdateSuccess }) {
                     <label>Email :  <span>luxury@gmail.com</span></label>
                 </div>
         </div>
-        <div class="w-full w-full px-10 pt-5">
+        <div class="w-full  px-10 pt-16">
             <table class="min-w-full bg-white border border-gray-200">
                 <thead>
                     <tr>
@@ -84,27 +91,39 @@ export default function PopupModel({ action, onUpdateSuccess }) {
                 </tbody>
             </table>
         </div>
-        <div class=" text-center pb-2 pt-[60px] text-4xl font-bold">Thank You Come Again </div>
+        <div class=" text-center  pb-2 pt-[180px] text-4xl font-bold">Thank You Come Again </div>
     </div>
         `;
 
         document.body.appendChild(element);
 
-        const canvas = await html2canvas(element);
-        const imgData = canvas.toDataURL('image/jpg');
-        doc.addImage(imgData, 'JPG', 10, 10, 190, 0);
+        const reviewImg = await loadImage('/review.png');
 
-        // Save PDF locally
+        const margin = 5;
+        const imageWidth = 30; // Adjust as needed
+        const imageHeight = 30; // Adjust as needed
+
+        // Add the review image to the top right
+        const canvas = await html2canvas(element);
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        const x = (pdfWidth - imageWidth) / 2;
+        doc.addImage(reviewImg, 'PNG', x , margin, imageWidth, imageHeight);
+        doc.addImage(imgData, 'PNG', 10, 40, 190, 0);
+
         doc.save('booking_bill.pdf');
 
         document.body.removeChild(element);
         const pdfBlob = doc.output('blob');
 
-        // Create a URL for the PDF blob
         const pdfUrl = URL.createObjectURL(pdfBlob);
 
         return pdfUrl;
     };
+
 
 
     const handleSubmit = async (event) => {
@@ -150,6 +169,7 @@ export default function PopupModel({ action, onUpdateSuccess }) {
             // const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfUrl}`;
             const whatsappUrl = `https://api.whatsapp.com/send?phone=${contact}&text=Here%20is%20your%20booking%20confirmation:%20${pdfFilePath}`
             window.open(whatsappUrl, '_blank');
+            setRoomType(null)
             onOpenChange(false);
             setSuccess(null);
             setError(null)
@@ -311,7 +331,7 @@ export default function PopupModel({ action, onUpdateSuccess }) {
                                                 <option value="Triple Room AC">Triple Room AC</option>
                                                 <option value="Triple Room Non AC">Triple Room Non AC</option>
                                             </select> */}
-                                             <Select
+                                            <Select
                                                 value={options.find(option => option.value === roomType)}
                                                 onChange={handleRoomTypeChange}
                                                 options={options}
